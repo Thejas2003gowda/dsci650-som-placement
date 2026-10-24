@@ -50,6 +50,15 @@ Run all commands from the repository root.
    python3 scripts/compare_runtimes.py data/jobs.csv
    ```
 
+## Data decisions
+
+| Decision | Choice | Why |
+|---|---|---|
+| Jobs dropped | 5,236 never started; 233 had no usable attempt (161 missing a time, 72 no GPU). 111,856 kept, including Failed and Killed jobs. | Dropped jobs can't be replayed. Failed and Killed jobs still used GPUs. |
+| Runtime | `runtime_gpu`: attempt durations added up. `runtime_span` stays in the CSV for comparison only. | Gaps between retries were the real scheduler's waiting, and the GPUs were free then. The span adds 4.4% GPU-hours and holds GPUs during gaps of up to 27 days. |
+| GPU count | Largest GPU count of any usable attempt | Attempts run one after another, so a job never holds more than its largest attempt. |
+| Known issue | 4 attempts end before they start, all on Nov 5, 2017, around 1:30 AM | Likely the daylight-saving clock change. Those attempts are ignored. |
+
 ## Code layout
 
 | Path | What it is |
