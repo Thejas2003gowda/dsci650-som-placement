@@ -45,6 +45,10 @@ Run all commands from the repository root.
    ```
    It prints how many jobs were kept and dropped. Expected: 117,325 jobs
    in the log, 111,856 kept.
+4. Compare the two runtime definitions:
+   ```bash
+   python3 scripts/compare_runtimes.py data/jobs.csv
+   ```
 
 ## Code layout
 
@@ -55,3 +59,4 @@ Run all commands from the repository root.
 | `requirements.txt` | Python packages |
 | `sim/trace.py` | Reads the raw Philly job log, drops jobs that can't be replayed, writes one clean row per job |
 | `tests/test_trace.py` | Tests for `sim/trace.py` on small hand-made jobs |
+| `scripts/compare_runtimes.py` | Compares the two runtime definitions in `data/jobs.csv` |
