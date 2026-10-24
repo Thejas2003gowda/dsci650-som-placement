@@ -15,8 +15,8 @@ GPU utilization and coordination cost.
 
 ## Requirements
 
-- Python 3
-- `pip install -r requirements.txt` (numpy, pandas)
+- Python 3 (tested with 3.14.2)
+- Packages in `requirements.txt` (numpy, pandas, pytest)
 
 ## Data
 
@@ -27,7 +27,24 @@ GPU utilization and coordination cost.
 
 ## How to build and run
 
-No runnable code yet. Steps are added with the first runnable code.
+Run all commands from the repository root.
+
+1. Set up once:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+2. Run the tests:
+   ```bash
+   python3 -m pytest
+   ```
+3. Clean the trace into `data/jobs.csv`:
+   ```bash
+   python3 -m sim.trace ~/philly-traces/trace-data/cluster_job_log data/jobs.csv
+   ```
+   It prints how many jobs were kept and dropped. Expected: 117,325 jobs
+   in the log, 111,856 kept.
 
 ## Code layout
 
@@ -36,3 +53,5 @@ No runnable code yet. Steps are added with the first runnable code.
 | `README.md` | This file |
 | `AI_USAGE.md` | How AI was used and how I checked it |
 | `requirements.txt` | Python packages |
+| `sim/trace.py` | Reads the raw Philly job log, drops jobs that can't be replayed, writes one clean row per job |
+| `tests/test_trace.py` | Tests for `sim/trace.py` on small hand-made jobs |
