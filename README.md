@@ -55,6 +55,14 @@ Run all commands from the repository root.
    python3 -m sim.machines ~/philly-traces/trace-data data
    ```
    Expected: list 2,490 GPUs, log 2,336 GPUs, max 3,918 GPUs.
+6. Run strict FIFO with least-loaded placement on each cluster option:
+   ```bash
+   python3 -m sim.simulator data/jobs.csv data/machines_list.csv data/results_fifo_list.csv
+   python3 -m sim.simulator data/jobs.csv data/machines_log.csv data/results_fifo_log.csv
+   python3 -m sim.simulator data/jobs.csv data/machines_max.csv data/results_fifo_max.csv
+   ```
+   Each prints median and p99 job completion time, mean wait, the share
+   of jobs that waited, and makespan.
 
 ## Data decisions
 
@@ -81,3 +89,5 @@ Run all commands from the repository root.
 | `tests/test_machines.py` | Tests for `sim/machines.py` on small made-up machines |
 | `sim/cluster.py` | Free GPUs per machine during a simulation; places jobs and releases them |
 | `tests/test_cluster.py` | Tests for `sim/cluster.py` on tiny made-up clusters |
+| `sim/simulator.py` | Event-driven simulator: replays jobs with a strict FIFO queue and writes per-job results |
+| `tests/test_simulator.py` | Tests for `sim/simulator.py` on tiny made-up traces, checked by hand |
