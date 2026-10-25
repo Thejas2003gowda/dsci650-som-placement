@@ -49,6 +49,12 @@ Run all commands from the repository root.
    ```bash
    python3 scripts/compare_runtimes.py data/jobs.csv
    ```
+5. Build the three cluster options (`data/machines_list.csv`,
+   `data/machines_log.csv`, `data/machines_max.csv`):
+   ```bash
+   python3 -m sim.machines ~/philly-traces/trace-data data
+   ```
+   Expected: list 2,490 GPUs, log 2,336 GPUs, max 3,918 GPUs.
 
 ## Data decisions
 
@@ -58,6 +64,7 @@ Run all commands from the repository root.
 | Runtime | `runtime_gpu`: attempt durations added up. `runtime_span` stays in the CSV for comparison only. | Gaps between retries were the real scheduler's waiting, and the GPUs were free then. The span adds 4.4% GPU-hours and holds GPUs during gaps of up to 27 days. |
 | GPU count | Largest GPU count of any usable attempt | Attempts run one after another, so a job never holds more than its largest attempt. |
 | Known issue | 4 attempts end before they start, all on Nov 5, 2017, around 1:30 AM | Likely the daylight-saving clock change. Those attempts are ignored. |
+| Cluster | Not decided yet. Three options are built (list, log, max) and will be compared in the simulator. | The machine list contradicts the job log for 410 of the 415 machines that ran jobs; on 238 of them, jobs used more GPUs than the list says exist. |
 
 ## Code layout
 
@@ -69,3 +76,5 @@ Run all commands from the repository root.
 | `sim/trace.py` | Reads the raw Philly job log, drops jobs that can't be replayed, writes one clean row per job |
 | `tests/test_trace.py` | Tests for `sim/trace.py` on small hand-made jobs |
 | `scripts/compare_runtimes.py` | Compares the two runtime definitions in `data/jobs.csv` |
+| `sim/machines.py` | Builds the three cluster options (which machines, how many GPUs each) |
+| `tests/test_machines.py` | Tests for `sim/machines.py` on small made-up machines |
