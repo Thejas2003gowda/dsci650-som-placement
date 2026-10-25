@@ -65,6 +65,7 @@ Run all commands from the repository root.
 | GPU count | Largest GPU count of any usable attempt | Attempts run one after another, so a job never holds more than its largest attempt. |
 | Known issue | 4 attempts end before they start, all on Nov 5, 2017, around 1:30 AM | Likely the daylight-saving clock change. Those attempts are ignored. |
 | Cluster | Not decided yet. Three options are built (list, log, max) and will be compared in the simulator. | The machine list contradicts the job log for 410 of the 415 machines that ran jobs; on 238 of them, jobs used more GPUs than the list says exist. |
+| Placement (least-loaded) | Machines with the most free GPUs first, until the job has enough. A job is split across machines only when no single machine has room. | In the trace, 96.5% of attempts with 8 or fewer GPUs ran on one machine, and about 40% of larger ones were split over partly free machines. Limitation: a split job does not run slower in the simulator. |
 
 ## Code layout
 
@@ -78,3 +79,5 @@ Run all commands from the repository root.
 | `scripts/compare_runtimes.py` | Compares the two runtime definitions in `data/jobs.csv` |
 | `sim/machines.py` | Builds the three cluster options (which machines, how many GPUs each) |
 | `tests/test_machines.py` | Tests for `sim/machines.py` on small made-up machines |
+| `sim/cluster.py` | Free GPUs per machine during a simulation; places jobs and releases them |
+| `tests/test_cluster.py` | Tests for `sim/cluster.py` on tiny made-up clusters |
