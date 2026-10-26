@@ -81,6 +81,7 @@ Run all commands from the repository root.
 |---|---|
 | `README.md` | This file |
 | `AI_USAGE.md` | How AI was used and how I checked it |
+| `DESIGN.md` | Multi-agent design decisions, changes from the proposal, items to revisit |
 | `requirements.txt` | Python packages |
 | `sim/trace.py` | Reads the raw Philly job log, drops jobs that can't be replayed, writes one clean row per job |
 | `tests/test_trace.py` | Tests for `sim/trace.py` on small hand-made jobs |
