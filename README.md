@@ -72,7 +72,7 @@ Run all commands from the repository root.
 | Runtime | `runtime_gpu`: attempt durations added up. `runtime_span` stays in the CSV for comparison only. | Gaps between retries were the real scheduler's waiting, and the GPUs were free then. The span adds 4.4% GPU-hours and holds GPUs during gaps of up to 27 days. |
 | GPU count | Largest GPU count of any usable attempt | Attempts run one after another, so a job never holds more than its largest attempt. |
 | Known issue | 4 attempts end before they start, all on Nov 5, 2017, around 1:30 AM | Likely the daylight-saving clock change. Those attempts are ignored. |
-| Cluster | Not decided yet. Three options are built (list, log, max) and will be compared in the simulator. | The machine list contradicts the job log for 410 of the 415 machines that ran jobs; on 238 of them, jobs used more GPUs than the list says exist. |
+| Cluster | `log` is the main option: 415 machines, 2,336 GPUs, each machine's size taken from the GPUs jobs actually used. `list` and `max` are run as robustness checks. | The machine list contradicts the job log for 410 of the 415 machines that ran jobs; on 238 of them, jobs used more GPUs than the list says exist. Under FIFO, `log` also has the most waiting (5.4% of jobs, vs 1.4% for `list` and 0% for `max`), so differences between schedulers show most there. |
 | Placement (least-loaded) | Machines with the most free GPUs first, until the job has enough. A job is split across machines only when no single machine has room. | In the trace, 96.5% of attempts with 8 or fewer GPUs ran on one machine, and about 40% of larger ones were split over partly free machines. Limitation: a split job does not run slower in the simulator. |
 
 ## Code layout
